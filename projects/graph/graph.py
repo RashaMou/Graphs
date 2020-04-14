@@ -68,27 +68,42 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
+        ## create stack
         ss = Stack()
+        ## add starting vertex to stack
         ss.push([starting_vertex])
+        # initialize visited set
         visited = set()
+        # while stack is not empty
         while ss.size() > 0:
+            # pop the head of the stack
             path = ss.pop()
+            # of not in visited, do the thing, then add to visited
             if path[-1] not in visited:
                 print(path[-1])
                 visited.add(path[-1])
+                # add neighbors to the stack
                 for next_vert in self.get_neighbors(path[-1]):
                     new_path = list(path)
                     new_path.append(next_vert)
                     ss.push(new_path)
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if visited is None:
+            visited = set()
+        new_vertex = self.get_neighbors(starting_vertex)
+        if starting_vertex in visited:
+            return
+        print(starting_vertex)
+        visited.add(starting_vertex)
+        for neighbor in new_vertex:
+            self.dft_recursive(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
