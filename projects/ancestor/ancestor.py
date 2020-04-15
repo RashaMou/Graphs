@@ -18,7 +18,11 @@ def earliest_ancestor(ancestors, starting_node):
             graph.add_vertex(child)
         # we're doing child: parent because we're traversing from bottom to top
         graph.add_edge(child, parent)
-    print(graph.vertices)
+    if len(graph.vertices[starting_node]) == 0:
+        return -1
+    else:
+        earliest_ancestor_path = graph.dft(starting_node)
+        return earliest_ancestor_path[-1]
 
     # do depth first search with starting node, and return all the possible paths that end in None
     # compare the paths, and return the one with the longest length
@@ -40,4 +44,4 @@ test_ancestors = [
     (10, 1),
 ]
 
-earliest_ancestor(test_ancestors, 7)
+earliest_ancestor(test_ancestors, 6)

@@ -71,19 +71,25 @@ class Graph:
         ss.push([starting_vertex])
         # initialize visited set
         visited = set()
+        ancestor_path = [starting_vertex]
         # while stack is not empty
         while ss.size() > 0:
             # pop the head of the stack
             path = ss.pop()
+            if len(path) > len(ancestor_path):
+                ancestor_path = path
+            if len(path) == len(ancestor_path):
+                if path[-1] < ancestor_path[-1]:
+                    ancestor_path = path
             # if not in visited, do the thing, then add to visited
             if path[-1] not in visited:
-                print(path[-1])
                 visited.add(path[-1])
                 # add neighbors to the stack
                 for next_vert in self.get_neighbors(path[-1]):
                     new_path = list(path)
                     new_path.append(next_vert)
                     ss.push(new_path)
+        return ancestor_path
 
     def dft_recursive(self, starting_vertex, visited=None):
         """
