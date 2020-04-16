@@ -86,22 +86,37 @@ class SocialGraph:
         extended network with the shortest friendship path between them.
 
         The key is the friend's ID and the value is the path.
+
+        What are the keywords in the above problem?
+        - "shortest path" tells us breadth first. Depth first does not guarantee the shortest path
+        - "extended network" tells us we need to use a traversal, and that it is connected component
+
+        planning:
+        - graph was already built
+        - start at given user_id, do a BFT, and return the path to each friend
+
+        pseudocode traversal:
+        - create queue
+        - enqueue path
+        - create visited dictionary
+        - while queue is not empty:
+            - dequeue first path
+            - if not visited
+                - do the thing!
+                - add to visited
+                - for each neighbor 
+                    - copy path and enqueue  
         """
         queue = Queue()
-        queue.enqueue([user_id])
+        queue.enqueue([user_id])  # we enqueue a list to build our path
         visited = {}
         while queue.size() > 0:
             path = queue.dequeue()
             if path[-1] not in visited.keys():
                 visited[path[-1]] = path
-                # print("visited", visited)
                 for next_friend in self.get_friends(path[-1]):
-                    # print("next_friend", next_friend)
                     new_path = list(path)
-                    # print("new_path", new_path)
-                    if next_friend not in new_path:
-                        new_path.append(next_friend)
-                        # print("appended_new_path", new_path)
+                    new_path.append(next_friend)
                     queue.enqueue(new_path)
         return visited
 
